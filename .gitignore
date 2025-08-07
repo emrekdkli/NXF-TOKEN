@@ -1,0 +1,28 @@
+# Node.js dosyaları
+node_modules/
+
+# VSCode ayarları
+.vscode/
+
+# Derlenmiş Solidity dosyaları
+artifacts/
+build/
+.cache/
+
+# Remix proje dosyaları
+.remix/
+
+# Log dosyaları
+*.log
+
+# Kilit dosyaları
+package-lock.json
+yarn.lock
+
+# Test ve debug
+coverage/
+*.dbg.js
+
+# Gizli dosyalar
+.DS_Store
+Thumbs.db
