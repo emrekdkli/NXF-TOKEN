@@ -1,21 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+contract NXFToken {
+    string public name = "NXF Token";
+    string public symbol = "NXF";
+    uint8 public decimals = 18;
+    uint256 public totalSupply;
+    address public owner;
 
-contract NXFToken is ERC20, Ownable {
-    constructor(uint256 initialSupply) ERC20("NXF Token", "NXF") {
-        _mint(msg.sender, initialSupply);
+    mapping(address => uint256) public balanceOf;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    constructor(uint256 initialSupply) {
+        owner = msg.sender;
+        totalSupply = initialSupply * (10 ** uint256(decimals));
+        balanceOf[msg.sender] = totalSupply;
+        emit Transfer(address(0), msg.sender, totalSupply);
     }
 
-    /// @notice Opsiyonel: daha sonra yeni token basmak istersen
-    function mint(address to, uint256 amount) external onlyOwner {
-        _mint(to, amount);
-    }
-
-    /// @notice Opsiyonel: token yakmak istersen
-    function burn(uint256 amount) external {
-        _burn(msg.sender, amount);
+    function transfer(address to, uint256 value) public returns (bool success) {
+        require(balanceOf[msg.sender] >= value, "Yetersiz bakiye");
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;
+        emit Transfer(msg.sender, to, value);
+        return true;
     }
 }
